@@ -7,7 +7,7 @@ import SeeSEOContent from "./components/SeeSEOContent";
 import SeeFAQ from "./components/SeeFAQ";
 
 export const metadata = {
-  title: "SEE GPA Calculator 2083 | Free Online SEE Grade Calculator",
+  title: "SEE GPA Calculator 2082 | Free Online SEE Grade Calculator",
   description:
     "Use our free SEE GPA Calculator to calculate your SEE GPA online. Enter theory and practical marks, check GPA instantly, and understand the SEE grading system easily.",
   alternates: {
