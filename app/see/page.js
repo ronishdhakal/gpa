@@ -5,6 +5,7 @@ import SeeHowItWorks from "./components/SeeHowItWorks";
 import SeeGradingSystem from "./components/SeeGradingSystem";
 import SeeSEOContent from "./components/SeeSEOContent";
 import SeeFAQ from "./components/SeeFAQ";
+import AlsoCheck from "./components/AlsoCheck"; // ✅ import
 
 export const metadata = {
   title: "SEE GPA Calculator 2082 | Free Online SEE Grade Calculator",
@@ -22,6 +23,10 @@ export default function SeePage() {
       <main className="bg-white text-gray-900">
         {/* <SeeHero /> */}
         <SeeCalculator />
+
+        {/* ✅ Add here (right after GPA calculation) */}
+        <AlsoCheck />
+
         <SeeHowItWorks />
         <SeeGradingSystem />
         <SeeSEOContent />
