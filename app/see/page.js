@@ -5,7 +5,7 @@ import SeeHowItWorks from "./components/SeeHowItWorks";
 import SeeGradingSystem from "./components/SeeGradingSystem";
 import SeeSEOContent from "./components/SeeSEOContent";
 import SeeFAQ from "./components/SeeFAQ";
-import AlsoCheck from "./components/AlsoCheck"; // ✅ import
+import AlsoCheck from "./components/AlsoCheck";
 
 export const metadata = {
   title: "SEE GPA Calculator 2082 | Free Online SEE Grade Calculator",
@@ -24,7 +24,33 @@ export default function SeePage() {
         {/* <SeeHero /> */}
         <SeeCalculator />
 
-        {/* ✅ Add here (right after GPA calculation) */}
+        {/* Links section */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 mb-2">
+          <p className="text-sm sm:text-base text-gray-700">
+            Check:{" "}
+            <a
+              href="https://see.collegeinfonepal.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:text-blue-800 hover:underline font-medium"
+            >
+              SEE Result 2082
+            </a>
+          </p>
+
+          <p className="text-sm sm:text-base text-gray-700 mt-2">
+            Helpful: Prepare for NEB Board Exam with{" "}
+            <a
+              href="https://www.nebexam.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:text-blue-800 hover:underline font-medium"
+            >
+              NEB Exam
+            </a>
+          </p>
+        </div>
+
         <AlsoCheck />
 
         <SeeHowItWorks />
