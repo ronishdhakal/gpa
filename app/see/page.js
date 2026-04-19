@@ -21,9 +21,7 @@ export default function SeePage() {
     <>
       <Navbar />
       <main className="bg-white text-gray-900">
-        {/* <SeeHero /> */}
-        <SeeCalculator />
-
+        
         {/* Links section */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 mb-2">
           <p className="text-sm sm:text-base text-gray-700">
@@ -35,6 +33,17 @@ export default function SeePage() {
               className="text-blue-600 hover:text-blue-800 hover:underline font-medium"
             >
               SEE Result 2082
+            </a>
+          </p>
+          <p className="text-sm sm:text-base text-gray-700">
+            Check:{" "}
+            <a
+              href="https://www.abroadadvise.com/featured/best-consultancy-in-nepal"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:text-blue-800 hover:underline font-medium"
+            >
+              Top Consultancy in Nepal (10 Best Options for 2026)
             </a>
           </p>
 
@@ -50,6 +59,9 @@ export default function SeePage() {
             </a>
           </p>
         </div>
+        {/* <SeeHero /> */}
+        <SeeCalculator />
+
 
         <AlsoCheck />
 
