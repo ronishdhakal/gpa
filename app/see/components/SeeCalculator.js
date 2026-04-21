@@ -26,7 +26,6 @@ const SUBJECTS = [
     theoryFull: 75,
     practicalFull: 25,
     creditHours: 4,
-    optionalType: "",
   },
   {
     id: 7,
@@ -70,10 +69,7 @@ function createInitialState() {
 }
 
 function getAdjustedRow(row) {
-  if (
-    (row.name === "Optional First" || row.name === "Optional Second") &&
-    row.optionalType === "computer"
-  ) {
+  if (row.name === "Optional Second" && row.optionalType === "computer") {
     return {
       ...row,
       theoryFull: 50,
@@ -97,10 +93,7 @@ export default function SeeCalculator() {
           [field]: value,
         };
 
-        if (
-          (row.name === "Optional First" || row.name === "Optional Second") &&
-          field === "optionalType"
-        ) {
+        if (row.name === "Optional Second" && field === "optionalType") {
           return {
             ...updatedRow,
             theoryObtained: "",
@@ -146,8 +139,11 @@ export default function SeeCalculator() {
           practicalCredit: null,
           theoryPoint: null,
           practicalPoint: null,
+          theoryGrade: "-",
+          practicalGrade: "-",
           theoryWGP: null,
           practicalWGP: null,
+          theoryFailed: false,
           invalid: true,
         };
       }
@@ -162,8 +158,11 @@ export default function SeeCalculator() {
           practicalCredit: null,
           theoryPoint: null,
           practicalPoint: null,
+          theoryGrade: "-",
+          practicalGrade: "-",
           theoryWGP: null,
           practicalWGP: null,
+          theoryFailed: false,
           invalid: false,
         };
       }
@@ -183,22 +182,34 @@ export default function SeeCalculator() {
       const theoryResult = getGradeFromPercentage(theoryPercentage);
       const practicalResult = getGradeFromPercentage(practicalPercentage);
 
-      const theoryWGP = theoryResult.point * theoryCredit;
-      const practicalWGP = practicalResult.point * practicalCredit;
+      const theoryFailed = theoryPercentage < 40;
 
-      const subjectWGP = theoryWGP + practicalWGP;
-      const finalPoint = subjectWGP / row.creditHours;
-      const finalGrade = getFinalGradeFromPoint(finalPoint);
+      let theoryPoint = theoryResult.point;
+      let practicalPoint = practicalResult.point;
+      let theoryGrade = theoryResult.grade;
+      let practicalGrade = practicalResult.grade;
+
+      let theoryWGP = theoryPoint * theoryCredit;
+      let practicalWGP = practicalPoint * practicalCredit;
+
+      let subjectWGP = theoryWGP + practicalWGP;
+      let finalPoint = subjectWGP / row.creditHours;
+      let finalGrade = getFinalGradeFromPoint(finalPoint);
+
+      if (theoryFailed) {
+        theoryPoint = 0;
+        theoryGrade = "NG";
+        theoryWGP = 0;
+        subjectWGP = 0;
+        finalPoint = 0;
+        finalGrade = "NG";
+      }
 
       completedSubjects += 1;
       totalWeightedGradePoints += subjectWGP;
       totalCreditHours += row.creditHours;
 
-      if (
-        theoryResult.grade === "NG" ||
-        practicalResult.grade === "NG" ||
-        finalGrade === "NG"
-      ) {
+      if (theoryFailed || practicalGrade === "NG" || finalGrade === "NG") {
         hasNG = true;
       }
 
@@ -209,10 +220,13 @@ export default function SeeCalculator() {
         finalPoint,
         theoryCredit,
         practicalCredit,
-        theoryPoint: theoryResult.point,
-        practicalPoint: practicalResult.point,
+        theoryPoint,
+        practicalPoint,
+        theoryGrade,
+        practicalGrade,
         theoryWGP,
         practicalWGP,
+        theoryFailed,
         invalid: false,
       };
     });
@@ -254,7 +268,6 @@ export default function SeeCalculator() {
             </h3>
           </div>
 
-          {/* Mobile */}
           <div className="space-y-4 p-4 md:hidden">
             {result.subjectResults.map((row) => (
               <div
@@ -276,7 +289,7 @@ export default function SeeCalculator() {
                   </div>
                 </div>
 
-                {(row.name === "Optional First" || row.name === "Optional Second") && (
+                {row.name === "Optional Second" && (
                   <div className="mt-3">
                     <select
                       value={row.optionalType}
@@ -333,6 +346,12 @@ export default function SeeCalculator() {
                     </div>
                   </div>
                 </div>
+
+                {row.theoryFailed && !row.invalid && (
+                  <div className="mt-3 rounded-lg bg-red-50 px-3 py-2 text-xs font-medium text-red-700">
+                    Theory is below 40%, so this subject is NG.
+                  </div>
+                )}
 
                 <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
                   <div className="rounded-lg bg-gray-50 px-3 py-2">
@@ -396,7 +415,6 @@ export default function SeeCalculator() {
             ))}
           </div>
 
-          {/* Desktop */}
           <div className="hidden overflow-x-auto md:block">
             <table className="w-full min-w-[980px] text-sm">
               <thead className="bg-white">
@@ -434,8 +452,7 @@ export default function SeeCalculator() {
                     <td className="px-3 py-4">
                       <div className="font-medium text-gray-900">{row.name}</div>
 
-                      {(row.name === "Optional First" ||
-                        row.name === "Optional Second") && (
+                      {row.name === "Optional Second" && (
                         <div className="mt-2">
                           <select
                             value={row.optionalType}
@@ -454,6 +471,11 @@ export default function SeeCalculator() {
                       <div className="mt-1 text-xs text-gray-500">
                         Full Marks: {row.theoryFull + row.practicalFull}
                       </div>
+                      {row.theoryFailed && !row.invalid && (
+                        <div className="mt-2 text-xs font-medium text-red-600">
+                          Theory below 40% → NG
+                        </div>
+                      )}
                     </td>
 
                     <td className="px-3 py-4 text-center">
@@ -601,16 +623,15 @@ export default function SeeCalculator() {
               </p>
               <p>
                 <span className="font-semibold text-gray-900">Step 2:</span> Their
-                own credit share is calculated separately.
+                credit share is calculated separately.
               </p>
               <p>
                 <span className="font-semibold text-gray-900">Step 3:</span> WGP is
-                calculated for theory and practical separately.
+                calculated separately for theory and practical.
               </p>
               <p>
-                <span className="font-semibold text-gray-900">Step 4:</span> Both
-                WGP values are added and divided by subject credit to get final
-                subject grade point.
+                <span className="font-semibold text-gray-900">Step 4:</span> If
+                theory is below 40%, the subject becomes NG.
               </p>
               <p>
                 <span className="font-semibold text-gray-900">Step 5:</span> Final
