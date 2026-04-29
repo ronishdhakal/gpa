@@ -182,7 +182,7 @@ export default function SeeCalculator() {
       const theoryResult = getGradeFromPercentage(theoryPercentage);
       const practicalResult = getGradeFromPercentage(practicalPercentage);
 
-      const theoryFailed = theoryPercentage < 40;
+      const theoryFailed = theoryPercentage < 35;
 
       let theoryPoint = theoryResult.point;
       let practicalPoint = practicalResult.point;
@@ -349,7 +349,7 @@ export default function SeeCalculator() {
 
                 {row.theoryFailed && !row.invalid && (
                   <div className="mt-3 rounded-lg bg-red-50 px-3 py-2 text-xs font-medium text-red-700">
-                    Theory is below 40%, so this subject is NG.
+                    Theory is below 35%, so this subject is NG.
                   </div>
                 )}
 
@@ -473,7 +473,7 @@ export default function SeeCalculator() {
                       </div>
                       {row.theoryFailed && !row.invalid && (
                         <div className="mt-2 text-xs font-medium text-red-600">
-                          Theory below 40% → NG
+                          Theory below 35% → NG
                         </div>
                       )}
                     </td>
@@ -631,7 +631,7 @@ export default function SeeCalculator() {
               </p>
               <p>
                 <span className="font-semibold text-gray-900">Step 4:</span> If
-                theory is below 40%, the subject becomes NG.
+                theory is below 35%, the subject becomes NG.
               </p>
               <p>
                 <span className="font-semibold text-gray-900">Step 5:</span> Final
